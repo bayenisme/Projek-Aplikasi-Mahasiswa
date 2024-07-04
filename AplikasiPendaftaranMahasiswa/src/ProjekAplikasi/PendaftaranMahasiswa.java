@@ -1,10 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package ProjekAplikasi;
 
-import ProjekAplikasi.MenuLog_in;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -18,26 +13,18 @@ import javax.swing.JOptionPane;
  */
 public class PendaftaranMahasiswa extends javax.swing.JFrame{
     
-    Connection con =null;
+    Connection con = null;
     Statement st = null;
     
-    // Constructor (jika diperlukan)
     public PendaftaranMahasiswa() {
         initComponents();
     }
     
-    // Method untuk menginisialisasi komponen GUI
-    private void initComponents() {
-        // Implementasi inisialisasi komponen GUI di sini
-    }
     
-    // Method untuk menghapus layar atau membersihkan input
-    private void hapuslayar() {
-        // Pastikan txtusername, txtpass, dan txtemail dideklarasikan dengan benar di kelas ini
+    private void clearsc(){
         txtusername.setText("");
         txtpass.setText("");
         txtemail.setText("");
-    }
 }
 
     /**
@@ -55,7 +42,6 @@ public class PendaftaranMahasiswa extends javax.swing.JFrame{
         fieldpass = new javax.swing.JLabel();
         fieldemail = new javax.swing.JLabel();
         txtemail = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
         btnsimpan = new javax.swing.JButton();
         txtpass = new javax.swing.JPasswordField();
 
@@ -101,9 +87,6 @@ public class PendaftaranMahasiswa extends javax.swing.JFrame{
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnsimpan)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(204, 204, 204))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(fieldemail, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(26, 26, 26)
                         .addComponent(txtemail, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -132,9 +115,7 @@ public class PendaftaranMahasiswa extends javax.swing.JFrame{
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fieldemail)
                     .addComponent(txtemail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
-                .addGap(35, 35, 35)
+                .addGap(41, 41, 41)
                 .addComponent(btnsimpan)
                 .addContainerGap(192, Short.MAX_VALUE))
         );
@@ -172,66 +153,6 @@ public class PendaftaranMahasiswa extends javax.swing.JFrame{
     }//GEN-LAST:event_txtemailActionPerformed
 
     private void btnsimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsimpanActionPerformed
-        try {
-    // Validasi input
-    if (txtusername.getText().equals("") || 
-        txtpass.getPassword().length == 0 || 
-        txtemail.getText().equals("")) {
-        
-        JOptionPane.showMessageDialog(this, 
-            "Data Tidak Boleh Kosong", 
-            "Pesan", 
-            JOptionPane.ERROR_MESSAGE);
-        
-        hapuslayar();
-    } else {
-        // Load driver MySQL
-        Class.forName("com.mysql.cj.jdbc.Driver");
-
-        // Koneksi ke database
-        Connection con = DriverManager.getConnection(
-            "jdbc:mysql://localhost/telepon", 
-            "root", 
-            "");
-        
-        // Membuat statement
-        Statement st = con.createStatement();
-
-        // Menggunakan PreparedStatement untuk menghindari SQL Injection
-        String simpan = "INSERT INTO login (username, password, email) VALUES (?, ?, ?)";
-        PreparedStatement pstmt = con.prepareStatement(simpan);
-        pstmt.setString(1, txtusername.getText());
-        pstmt.setString(2, String.valueOf(txtpass.getPassword()));
-        pstmt.setString(3, txtemail.getText());
-
-        // Eksekusi query
-        int SA = pstmt.executeUpdate();
-        
-        // Tampilkan pesan sukses
-        JOptionPane.showMessageDialog(null, "Registrasi Berhasil");
-        
-        // Menutup frame saat ini dan membuka menu login
-        this.setVisible(false);
-        new MenuLog_in(null, true).setVisible(true);
-        
-        // Menutup koneksi
-        pstmt.close();
-        st.close();
-        con.close();
-    }
-} catch (SQLException e) {
-    JOptionPane.showMessageDialog(this,
-        "This account already exists / Duplicate Account",
-        "Pesan",
-        JOptionPane.WARNING_MESSAGE);
-    hapuslayar();
-} catch (ClassNotFoundException e) {
-    JOptionPane.showMessageDialog(this,
-        "Driver MySQL tidak ditemukan",
-        "Pesan",
-        JOptionPane.ERROR_MESSAGE);
-    hapuslayar();
-}
 
     }//GEN-LAST:event_btnsimpanActionPerformed
 
@@ -275,7 +196,6 @@ public class PendaftaranMahasiswa extends javax.swing.JFrame{
     private javax.swing.JLabel fieldemail;
     private javax.swing.JLabel fieldpass;
     private javax.swing.JLabel fieldusername;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField txtemail;
     private javax.swing.JPasswordField txtpass;
