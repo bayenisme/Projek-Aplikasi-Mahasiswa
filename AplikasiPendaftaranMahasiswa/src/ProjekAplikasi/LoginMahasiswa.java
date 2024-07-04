@@ -4,6 +4,7 @@ package ProjekAplikasi;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
+import ProjekAplikasi.PendaftaranMahasiswa;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -43,7 +44,14 @@ Statement st = null;
         }
     }
     
-    
+    private void initComponents() {
+
+    btnreg.setText("Registrasi");
+    btnreg.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnregActionPerformed(evt);
+        }
+    });
    
         private void CekLogin(){
             try{
@@ -179,7 +187,8 @@ Statement st = null;
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnregActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnregActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+    new PendaftaranMahasiswa().setVisible(true);
     }//GEN-LAST:event_btnregActionPerformed
 
     private void btnloginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnloginActionPerformed
