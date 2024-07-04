@@ -23,17 +23,14 @@ Statement st = null;
     public LoginMahasiswa(java.awt.Frame parent, boolean modal) {
         initComponents();
         try {
-Class.forName("com.mysql.jdbc.Driver");
-conn=DriverManager.getConnection("jdbc:mysql://localhost/mahasiswa_login
-","root","");
-st=conn.createStatement();
-JOptionPane.showMessageDialog(null, "Berhasil Koneksi");
-}
-catch(Exception ex){
-JOptionPane.showMessageDialog(null,"Gagal terkoneksi
-Karena " + ex);
-}
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/mahasiswa_login", "root", "");
+            st = conn.createStatement();
+            JOptionPane.showMessageDialog(null, "Berhasil Koneksi");
+        } catch(Exception ex) {
+            JOptionPane.showMessageDialog(null, "Gagal terkoneksi karena " + ex);;
     }
+}
    
         private void CekLogin(){
             try{
@@ -59,7 +56,7 @@ Karena " + ex);
 e.printStackTrace();
         }
     }
-         private void HapusLayar(){
+    private void HapusLayar(){
     txtusername.setText("");
     txtpassword.setText("");
     txtusername.setEnabled(true);
