@@ -153,6 +153,62 @@ public class PendaftaranMahasiswa extends javax.swing.JFrame{
     }//GEN-LAST:event_txtemailActionPerformed
 
     private void btnsimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsimpanActionPerformed
+        try {
+    // Validasi input
+    if (txtusername.getText().equals("") || 
+        txtpass.getPassword().length == 0 || 
+        txtemail.getText().equals("")) {
+        
+        JOptionPane.showMessageDialog(this, "Data Tidak Boleh Kosong", "Pesan", JOptionPane.ERROR_MESSAGE);
+        clearsc();
+    } else {
+        // Load driver MySQL
+        Class.forName("com.mysql.cj.jdbc.Driver");
+
+        // Koneksi ke database
+        Connection con = DriverManager.getConnection(
+            "jdbc:mysql://localhost/mahasiswa_login", 
+            "root", 
+            "");
+        
+        // Membuat statement
+        Statement st = con.createStatement();
+
+        // Menggunakan PreparedStatement untuk menghindari SQL Injection
+        String simpan = "INSERT INTO login (username, password, email) VALUES (?, ?, ?)";
+        PreparedStatement pstmt = con.prepareStatement(simpan);
+        pstmt.setString(1, txtusername.getText());
+        pstmt.setString(2, String.valueOf(txtpass.getPassword()));
+        pstmt.setString(3, txtemail.getText());
+
+        // Eksekusi query
+        int SA = pstmt.executeUpdate();
+        
+        // Tampilkan pesan sukses
+        JOptionPane.showMessageDialog(null, "Registrasi Berhasil");
+        
+        // Menutup frame saat ini dan membuka menu login
+        this.setVisible(false);
+        new LoginMahasiswa(null, true).setVisible(true);
+        
+        // Menutup koneksi
+        pstmt.close();
+        st.close();
+        con.close();
+    }
+} catch (SQLException e) {
+    JOptionPane.showMessageDialog(this,
+        "This account already exists / Duplicate Account",
+        "Pesan",
+        JOptionPane.WARNING_MESSAGE);
+    clearsc();
+} catch (ClassNotFoundException e) {
+    JOptionPane.showMessageDialog(this,
+        "Driver MySQL tidak ditemukan",
+        "Pesan",
+        JOptionPane.ERROR_MESSAGE);
+    clearsc();
+}
 
     }//GEN-LAST:event_btnsimpanActionPerformed
 
