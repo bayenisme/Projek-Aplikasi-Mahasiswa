@@ -23,43 +23,53 @@ Statement st = null;
     public LoginMahasiswa(java.awt.Frame parent, boolean modal) {
         initComponents();
         try {
-Class.forName("com.mysql.jdbc.Driver");
-conn=DriverManager.getConnection("jdbc:mysql://localhost/mahasiswa_login
-","root","");
-st=conn.createStatement();
-JOptionPane.showMessageDialog(null, "Berhasil Koneksi");
-}
-catch(Exception ex){
-JOptionPane.showMessageDialog(null,"Gagal terkoneksi
-Karena " + ex);
-}
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/mahasiswa_login", "root", "");
+            st = conn.createStatement();
+            JOptionPane.showMessageDialog(null, "Berhasil Koneksi");
+        } catch(Exception ex) {
+            JOptionPane.showMessageDialog(null, "Gagal terkoneksi karena " + ex);;
     }
+}
+        private void customInitComponents() {
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/mahasiswa_login", "root", "");
+            st = conn.createStatement();
+            JOptionPane.showMessageDialog(null, "Berhasil Koneksi");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Gagal terkoneksi karena " + ex);
+        }
+    }
+    
+    
    
         private void CekLogin(){
             try{
               if(txtusername.getText().equals("") ||
-                txtpassword.getpassword().equals("")){
+                txtpassword.getPassword().equals("")){
                   JOptionPane.showMessageDialog(rootPane, "Data Tidak Boleh Kosong", "Pesan", JOptionPane.ERROR_MESSAGE);
                   txtusername.requestFocus();
                   HapusLayar();
                 }else{
                 st = conn.createStatement();
-            String sql = ("SELECT * FROM Tblogin WHERE username ='"+txtusername.getText()+"' AND password ='"+String.valueOf(txtpassword.getpassword())+"'");
+            String sql = ("SELECT * FROM Tblogin WHERE username ='"+txtusername.getText()+"' AND password ='"+String.valueOf(txtpassword.getPassword())+"'");
             ResultSet rs = st.executeQuery(sql);
             if(rs.next()){
                 this.dispose();
                 new MenuMahasiswa().setVisible(true);
             }else
             JOptionPane.showMessageDialog(rootPane, "UserName dan Password Salah\nAtau Akun Belum Terdaftar", "Pesan",
-    JOptionPane.ERROR_MESSAGE);
-        HapusLayar();
+            JOptionPane.ERROR_MESSAGE);
+            HapusLayar();
         }
     }
-   }catch(Exception e){
-e.printStackTrace();
+   }    catch(Exception e){
+        e.printStackTrace();
         }
     }
-         private void HapusLayar(){
+    private void HapusLayar(){
     txtusername.setText("");
     txtpassword.setText("");
     txtusername.setEnabled(true);
@@ -76,19 +86,19 @@ e.printStackTrace();
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnlogin = new javax.swing.JButton();
         txtusername = new javax.swing.JTextField();
         txtpassword = new javax.swing.JPasswordField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        btnreg = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("Login");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnlogin.setText("Login");
+        btnlogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnloginActionPerformed(evt);
             }
         });
 
@@ -96,10 +106,10 @@ e.printStackTrace();
 
         jLabel2.setText("Password :");
 
-        jButton2.setText("Registrasi");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnreg.setText("Registrasi");
+        btnreg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnregActionPerformed(evt);
             }
         });
 
@@ -117,7 +127,7 @@ e.printStackTrace();
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jButton1))
+                                .addComponent(btnlogin))
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,8 +137,7 @@ e.printStackTrace();
                             .addComponent(txtusername, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(184, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)
+                        .addComponent(btnreg)
                         .addGap(88, 88, 88))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -144,8 +153,8 @@ e.printStackTrace();
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 162, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(btnlogin)
+                    .addComponent(btnreg))
                 .addGap(29, 29, 29))
         );
 
@@ -169,57 +178,52 @@ e.printStackTrace();
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnregActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnregActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnregActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-   CekLogin();
+    private void btnloginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnloginActionPerformed
+    CekLogin();
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnloginActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+        public static void main(String args[]) {
+    /* Set the Nimbus look and feel */
+    try {
+        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                break;
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LoginMahasiswa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LoginMahasiswa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LoginMahasiswa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LoginMahasiswa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new LoginMahasiswa().setVisible(true);
-            }
-        });
+    } catch (ClassNotFoundException ex) {
+        java.util.logging.Logger.getLogger(LoginMahasiswa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (InstantiationException ex) {
+        java.util.logging.Logger.getLogger(LoginMahasiswa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (IllegalAccessException ex) {
+        java.util.logging.Logger.getLogger(LoginMahasiswa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        java.util.logging.Logger.getLogger(LoginMahasiswa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
     }
 
+    /* Create and display the form */
+    java.awt.EventQueue.invokeLater(new Runnable() {
+        public void run() {
+            new LoginMahasiswa().setVisible(true);
+        }
+    });
+}
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnlogin;
+    private javax.swing.JButton btnreg;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField txtpassword;
     private javax.swing.JTextField txtusername;
     // End of variables declaration//GEN-END:variables
-}
+
