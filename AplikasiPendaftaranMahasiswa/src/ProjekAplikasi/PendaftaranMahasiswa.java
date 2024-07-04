@@ -4,8 +4,11 @@
  */
 package ProjekAplikasi;
 
+import ProjekAplikasi.MenuLog_in;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 
@@ -13,26 +16,29 @@ import javax.swing.JOptionPane;
  *
  * @author Biyan
  */
-public class PendaftaranMahasiswa extends javax.swing.JFrame {
+public class PendaftaranMahasiswa extends javax.swing.JFrame{
     
     Connection con =null;
-Statement st = null;
-
-public PendaftaranMahasiswae parent, boolean modal) {
-initComponents();
-}
-private void hapuslayar(){
-txtusername.setText("");
-txtpass.setText("");
-txtemail.setText("");
-}
-
-    /**
-     * Creates new form PendaftaranMahasiswa
-     */
+    Statement st = null;
+    
+    // Constructor (jika diperlukan)
     public PendaftaranMahasiswa() {
         initComponents();
     }
+    
+    // Method untuk menginisialisasi komponen GUI
+    private void initComponents() {
+        // Implementasi inisialisasi komponen GUI di sini
+    }
+    
+    // Method untuk menghapus layar atau membersihkan input
+    private void hapuslayar() {
+        // Pastikan txtusername, txtpass, dan txtemail dideklarasikan dengan benar di kelas ini
+        txtusername.setText("");
+        txtpass.setText("");
+        txtemail.setText("");
+    }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -167,27 +173,66 @@ txtemail.setText("");
 
     private void btnsimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsimpanActionPerformed
         try {
-            if(txtusername.getText().equals(""))txtpass.getPassword().equals("")||  || txtemail.getText().equals(""){
-            JOptionPane.showMessageDialog(this, "Data Tidak
-            Boleh Kosong", "Pesan", JOptionPane.ERROR_MESSAGE);
-            hapuslayar();
-            else{
-            Class.forName("com.mysql.jdbc.Driver");
-            con=DriverManager.getConnection("jdbc:mysql://localhost/telepon","root","");
-            st=con.createStatement();
-            String simpan = "INSERT INTO login VALUES('"+txtusername.getText()+"','"+String.valueOf(txtpass.getPassword())+"','"+txtemail.getText()+"')";
-            st=con.createStatement();
-            int SA = st.executeUpdate(simpan);
-            JOptionPane.showMessageDialog(null, "Registrasi Berhasil");
-            this.setVisible(false);
-            new MenuLog_in(null, true).setVisible(true);
-            }
-            } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,"This account already exist / Duplicate Account ", "Pesan", JOptionPane.WARNING_MESSAGE);
-            hapuslayar();
+    // Validasi input
+    if (txtusername.getText().equals("") || 
+        txtpass.getPassword().length == 0 || 
+        txtemail.getText().equals("")) {
+        
+        JOptionPane.showMessageDialog(this, 
+            "Data Tidak Boleh Kosong", 
+            "Pesan", 
+            JOptionPane.ERROR_MESSAGE);
+        
+        hapuslayar();
+    } else {
+        // Load driver MySQL
+        Class.forName("com.mysql.cj.jdbc.Driver");
 
-        }
-        }
+        // Koneksi ke database
+        Connection con = DriverManager.getConnection(
+            "jdbc:mysql://localhost/telepon", 
+            "root", 
+            "");
+        
+        // Membuat statement
+        Statement st = con.createStatement();
+
+        // Menggunakan PreparedStatement untuk menghindari SQL Injection
+        String simpan = "INSERT INTO login (username, password, email) VALUES (?, ?, ?)";
+        PreparedStatement pstmt = con.prepareStatement(simpan);
+        pstmt.setString(1, txtusername.getText());
+        pstmt.setString(2, String.valueOf(txtpass.getPassword()));
+        pstmt.setString(3, txtemail.getText());
+
+        // Eksekusi query
+        int SA = pstmt.executeUpdate();
+        
+        // Tampilkan pesan sukses
+        JOptionPane.showMessageDialog(null, "Registrasi Berhasil");
+        
+        // Menutup frame saat ini dan membuka menu login
+        this.setVisible(false);
+        new MenuLog_in(null, true).setVisible(true);
+        
+        // Menutup koneksi
+        pstmt.close();
+        st.close();
+        con.close();
+    }
+} catch (SQLException e) {
+    JOptionPane.showMessageDialog(this,
+        "This account already exists / Duplicate Account",
+        "Pesan",
+        JOptionPane.WARNING_MESSAGE);
+    hapuslayar();
+} catch (ClassNotFoundException e) {
+    JOptionPane.showMessageDialog(this,
+        "Driver MySQL tidak ditemukan",
+        "Pesan",
+        JOptionPane.ERROR_MESSAGE);
+    hapuslayar();
+}
+
     }//GEN-LAST:event_btnsimpanActionPerformed
 
     /**
