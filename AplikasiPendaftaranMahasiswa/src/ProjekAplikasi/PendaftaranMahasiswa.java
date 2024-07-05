@@ -13,6 +13,11 @@ import javax.swing.JOptionPane;
  */
 public class PendaftaranMahasiswa extends javax.swing.JFrame{
     
+    static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+    static final String DB_URL = "jdbc:mysql://localhost/phpmyadmin/index.php?route=/database/structure&db=mahasiswa_login";
+    static final String USER = "root";
+    static final String PASS = "";
+    
     Connection con = null;
     Statement st = null;
     
@@ -44,37 +49,73 @@ public class PendaftaranMahasiswa extends javax.swing.JFrame{
         txtemail = new javax.swing.JTextField();
         btnsimpan = new javax.swing.JButton();
         txtpass = new javax.swing.JPasswordField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        pilihjurusan = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(0, 51, 153));
+
+        fieldusername.setFont(new java.awt.Font("Segoe UI Black", 3, 14)); // NOI18N
+        fieldusername.setForeground(new java.awt.Color(255, 255, 255));
         fieldusername.setText("Username :");
 
+        txtusername.setFont(new java.awt.Font("Dubai Medium", 0, 14)); // NOI18N
         txtusername.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtusernameActionPerformed(evt);
             }
         });
 
+        fieldpass.setFont(new java.awt.Font("Segoe UI Black", 3, 14)); // NOI18N
+        fieldpass.setForeground(new java.awt.Color(255, 255, 255));
         fieldpass.setText("Password :");
 
+        fieldemail.setFont(new java.awt.Font("Segoe UI Black", 3, 14)); // NOI18N
+        fieldemail.setForeground(new java.awt.Color(255, 255, 255));
         fieldemail.setText("Email :");
 
+        txtemail.setFont(new java.awt.Font("Dubai Medium", 0, 14)); // NOI18N
         txtemail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtemailActionPerformed(evt);
             }
         });
 
-        btnsimpan.setText("Simpan");
+        btnsimpan.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 14)); // NOI18N
+        btnsimpan.setText("Daftar");
         btnsimpan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnsimpanActionPerformed(evt);
             }
         });
 
+        txtpass.setFont(new java.awt.Font("Dubai Medium", 0, 14)); // NOI18N
         txtpass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtpassActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 22)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Selamat Datang di Universitas Dian Nuswantoro");
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 0, 51));
+        jLabel2.setText("Isi dengan Data Diri Anda Untuk Membuat Akun");
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI Black", 3, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Jurusan :");
+
+        pilihjurusan.setFont(new java.awt.Font("Dubai Medium", 0, 14)); // NOI18N
+        pilihjurusan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sistem Informasi", "Teknik Informatika", "Desain Animasi" }));
+        pilihjurusan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pilihjurusanActionPerformed(evt);
             }
         });
 
@@ -83,41 +124,60 @@ public class PendaftaranMahasiswa extends javax.swing.JFrame{
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(44, 44, 44)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnsimpan)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(fieldemail, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(txtemail, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(167, 167, 167)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(fieldusername, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(fieldpass, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(26, 26, 26)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtusername)
-                            .addComponent(txtpass, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE))))
-                .addContainerGap(404, Short.MAX_VALUE))
+                            .addComponent(jLabel1)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(btnsimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(fieldpass, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(fieldusername, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(fieldemail, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jLabel3))
+                                    .addGap(111, 111, 111)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(txtpass, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                                        .addComponent(txtemail, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                                        .addComponent(txtusername, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                                        .addComponent(pilihjurusan, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(232, 232, 232)
+                        .addComponent(jLabel2)))
+                .addContainerGap(125, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtusername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fieldusername))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(41, 41, 41)
+                        .addComponent(txtemail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(fieldpass)
+                            .addComponent(txtpass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(fieldemail)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(pilihjurusan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fieldusername)
-                    .addComponent(txtusername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fieldpass)
-                    .addComponent(txtpass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fieldemail)
-                    .addComponent(txtemail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(41, 41, 41)
-                .addComponent(btnsimpan)
-                .addContainerGap(192, Short.MAX_VALUE))
+                .addComponent(btnsimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -154,7 +214,6 @@ public class PendaftaranMahasiswa extends javax.swing.JFrame{
 
     private void btnsimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsimpanActionPerformed
         try {
-    // Validasi input
     if (txtusername.getText().equals("") || 
         txtpass.getPassword().length == 0 || 
         txtemail.getText().equals("")) {
@@ -162,36 +221,36 @@ public class PendaftaranMahasiswa extends javax.swing.JFrame{
         JOptionPane.showMessageDialog(this, "Data Tidak Boleh Kosong", "Pesan", JOptionPane.ERROR_MESSAGE);
         clearsc();
     } else {
-        // Load driver MySQL
+        
         Class.forName("com.mysql.cj.jdbc.Driver");
 
-        // Koneksi ke database
+        
         Connection con = DriverManager.getConnection(
             "jdbc:mysql://localhost/mahasiswa_login", 
             "root", 
             "");
         
-        // Membuat statement
+        
         Statement st = con.createStatement();
 
-        // Menggunakan PreparedStatement untuk menghindari SQL Injection
+        
         String simpan = "INSERT INTO login (username, password, email) VALUES (?, ?, ?)";
         PreparedStatement pstmt = con.prepareStatement(simpan);
         pstmt.setString(1, txtusername.getText());
         pstmt.setString(2, String.valueOf(txtpass.getPassword()));
         pstmt.setString(3, txtemail.getText());
 
-        // Eksekusi query
+        
         int SA = pstmt.executeUpdate();
         
-        // Tampilkan pesan sukses
+        
         JOptionPane.showMessageDialog(null, "Registrasi Berhasil");
         
-        // Menutup frame saat ini dan membuka menu login
+        
         this.setVisible(false);
         new LoginMahasiswa(null, true).setVisible(true);
         
-        // Menutup koneksi
+        
         pstmt.close();
         st.close();
         con.close();
@@ -211,6 +270,10 @@ public class PendaftaranMahasiswa extends javax.swing.JFrame{
 }
 
     }//GEN-LAST:event_btnsimpanActionPerformed
+
+    private void pilihjurusanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pilihjurusanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pilihjurusanActionPerformed
 
     /**
      * @param args the command line arguments
@@ -252,7 +315,11 @@ public class PendaftaranMahasiswa extends javax.swing.JFrame{
     private javax.swing.JLabel fieldemail;
     private javax.swing.JLabel fieldpass;
     private javax.swing.JLabel fieldusername;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JComboBox<String> pilihjurusan;
     private javax.swing.JTextField txtemail;
     private javax.swing.JPasswordField txtpass;
     private javax.swing.JTextField txtusername;
