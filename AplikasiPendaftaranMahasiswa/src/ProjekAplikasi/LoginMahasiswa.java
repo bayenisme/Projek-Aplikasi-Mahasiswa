@@ -1,7 +1,13 @@
 package ProjekAplikasi;
+
 import javax.swing.JOptionPane;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 
-
+ 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -16,10 +22,11 @@ public class LoginMahasiswa extends javax.swing.JFrame {
     /**
      * Creates new form menu
      */
-    private String uname;
+    private String username;
     public LoginMahasiswa() {
         initComponents();
     }
+}
 
     
 
@@ -175,7 +182,7 @@ public class LoginMahasiswa extends javax.swing.JFrame {
                 txtpass.getPassword().length == 0 ||
                 txtemail.getText().equals("")) {
 
-                JOptionPane.showMessageDialog(this, "Data Tidak Boleh Kosong", "Pesan", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(LoginMahasiswa.this, "Data Tidak Boleh Kosong", "Pesan", JOptionPane.ERROR_MESSAGE);
                 clearsc();
             } else {
 
@@ -198,21 +205,21 @@ public class LoginMahasiswa extends javax.swing.JFrame {
 
                 JOptionPane.showMessageDialog(null, "Registrasi Berhasil");
 
-                this.setVisible(false);
-                new LoginMahasiswa(null, true).setVisible(true);
+                LoginMahasiswa.this.setVisible(false);
+                new LoginMahasiswa().setVisible(true);
 
                 pstmt.close();
                 st.close();
                 con.close();
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this,
+            JOptionPane.showMessageDialog(LoginMahasiswa.this,
                 "This account already exists / Duplicate Account",
                 "Pesan",
                 JOptionPane.WARNING_MESSAGE);
             clearsc();
         } catch (ClassNotFoundException e) {
-            JOptionPane.showMessageDialog(this,
+            JOptionPane.showMessageDialog(LoginMahasiswa.this,
                 "Driver MySQL tidak ditemukan",
                 "Pesan",
                 JOptionPane.ERROR_MESSAGE);
@@ -226,11 +233,14 @@ public class LoginMahasiswa extends javax.swing.JFrame {
 
     private void btnloginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnloginActionPerformed
        String username = txtusername.getText();
-       String password = String.valueOf(txtpass.getPassword());
+        String password = String.valueOf(txtpass.getPassword());
 
-        System.out.println("Attempting login for username: " + uname);
+        System.out.println("Attempting login for username: " + username);
 
         User user = userUtil.checkUser(username, password);
+        
+
+
 
         if (user == null) {
             JOptionPane.showMessageDialog(null, "User tidak ditemukan");
@@ -238,13 +248,11 @@ public class LoginMahasiswa extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "LOGIN BERHASIL");
             System.out.println("Login successful: User ID " + user.getId() + ", Username " + user.getUsername());
-
-         
         }
-        public String getUser(){
-        return username;
-    }
     }//GEN-LAST:event_btnloginActionPerformed
+    public String getUser(){
+        return txtusername.getText();
+    }
     /**
      * @param args the command line arguments
      */
@@ -276,7 +284,8 @@ public class LoginMahasiswa extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new LoginMahasiswa().setVisible(true);
+                LoginMahasiswa login = new LoginMahasiswa();
+                login.setVisible(true);
             }
         });
     }
